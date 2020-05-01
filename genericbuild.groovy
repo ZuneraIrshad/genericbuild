@@ -8,7 +8,7 @@ node {
 	stage('Build') {
 		try{
 			echo 'Building...'
-			//sh 'add npm task'
+			//sh 'npm build' + config.target // now its more abstarct 
 			echo 'Building New Feature'
 			releasenotes(changes: "true")
 		}catch(ex){
