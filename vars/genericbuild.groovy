@@ -1,36 +1,38 @@
 def call(Map config=[:]){
-node { 
-	stage('SCM') {
+node('DOTNETCORE'){
+	stage('SCM'){
 		echo 'Gathering code from version control'
-		git branch: '${branch}', url: 'https://github.com/ZuneraIrshad/genericbuild.git'
+		//git branch: '${branch}', url: 'https://github.com/ZuneraIrshad/DockerJenkins.git'
+		checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/ZuneraIrshad/DockerJenkins.git']]]);
 	}
-
-	stage('Build') {
+	
+	stage('Build'){
 		try{
-			echo 'Building...'
-			//sh 'add npm task'
-			echo 'Building New Feature'
-			releasenotes(changes: "true")
+		  echo 'Building...'
+		  //sh 'dotnet --version'
+		  sh 'dotnet build ConsoleApp1'
+		  echo 'Building New Feature'
+		  releasenotes(changes: "true")
+		  // true == note include changes log
 		}catch(ex){
-			echo 'Something went wrong...'
-			echo ex.toString();
-			currentBuild.result = 'FAILURE'
-		}
-		finally{
-			// cleanup
-		}
+		  echo 'something went wrong'
+		  echo ex.toString();
+		  currentBuild.result = 'FAILURE'
+		} finally{
+		  //archiveArtifacts artifacts: 'ConsoleApp1/*.*'
+ 		}
+		//cleanup
 	}
-	stage('Test') {
-		echo 'Testing...' // to-do - add steps for all these.. 
+	stage('Test'){
+		echo 'Execute Unit Tests'
 	}
-	stage('Code Quality') {
-		echo 'Running Sonar...'
+	stage('Package'){
+		echo 'Zip it up'
 	}
-	stage('Lint/Format') {
-		echo 'Code Linting...'
+	stage('Deploy'){
+		echo 'Push to Artifactory'
 	}
-	stage('Push Artifacts'){
-		echo 'Pushing to Artifcatory...'
+	stage('Archive'){
+		archiveArtifacts artifacts: 'ConsoleApp1/*.*'
 	}
-  }
 }
