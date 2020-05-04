@@ -10,7 +10,7 @@ node('DOTNETCORE'){
 		try{
 		  echo 'Building...'
 		  //sh 'dotnet --version'
-		  sh 'dotnet build ConsoleApp1'
+		  sh 'dotnet build ' + config.target
 		  echo 'Building New Feature'
 		  releasenotes(changes: "true")
 		  // true == note include changes log
