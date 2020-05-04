@@ -35,4 +35,5 @@ node('DOTNETCORE'){
 	stage('Archive'){
 		archiveArtifacts artifacts: 'ConsoleApp1/*.*'
 	}
+    }
 }
