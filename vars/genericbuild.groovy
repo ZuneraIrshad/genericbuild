@@ -1,5 +1,5 @@
 def call(Map config=[:]){
-node('DOTNETCORE'){
+node('NODE-NPM'){
 	stage('SCM'){
 		echo 'Gathering code from version control'
 		//git branch: '${branch}', url: 'https://github.com/ZuneraIrshad/DockerJenkins.git'
