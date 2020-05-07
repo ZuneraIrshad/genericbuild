@@ -1,5 +1,6 @@
 def call(Map config=[:]){
 node('NODE-NPM'){
+	//undo this node
 	stage('SCM'){
 		echo 'Gathering code from version control'
 		//git branch: '${branch}', url: 'https://github.com/ZuneraIrshad/DockerJenkins.git'
